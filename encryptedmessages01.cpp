@@ -170,10 +170,8 @@ LRESULT CALLBACK ButtonProc01(HWND tlacitko, UINT message, WPARAM wp, LPARAM lp)
 {
     switch (message) {
     case WM_LBUTTONDOWN:
-        //SendMessage(tlacitko, WM_SETTEXT, 0, (LPARAM)L"Stlaèené");
         break;
     case WM_LBUTTONUP:
-        //SendMessage(tlacitko, WM_SETTEXT, 0, (LPARAM)L"Pustené");
 		InvalidateRect(hWnd, NULL, TRUE);
 		UpdateWindow(hWnd);
 
@@ -203,7 +201,6 @@ BOOL CALLBACK GoToProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
     switch (message)
     {
         case WM_INITDIALOG:
-            //CheckDlgButton(hwndDlg, ID_ABSREL, fRelative);
             return TRUE;
  
         case WM_COMMAND:
@@ -325,10 +322,8 @@ BOOL CALLBACK GoToProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 						string cast[32], do_suboru;
 
 						string rozdelovac = "\n";
-						int dlzka = 0, z = 0; // pozicia = na_zapis_base64.find(rozdelovac);
+						int dlzka = 0, z = 0;
 						size_t pozicia = 0;
-						//cast1 = na_zapis_base64.substr(0, pozicia);
-    					//na_zapis_base64.erase(0, pozicia + rozdelovac.length());
 
 						while ((pozicia = na_zapis_base64.find(rozdelovac)) != string::npos)
 						{
@@ -348,69 +343,12 @@ BOOL CALLBACK GoToProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	
 						}
 
-						//do_suboru = cast1 + na_zapis_base64;
-
-						/*ofstream subor;
-						subor.open("data.txt");
-
-						if (subor.is_open())
-						{
-
-							for (int i = 0; i < pocet_riadkov; i++) { subor << udaj[i] << endl; }
-							subor << na_zapis_base64;
-					
-						}
-
-						subor.close();*/
-
 						FILE *subor;
 						subor = fopen("data.txt", "w");
 						for (int i = 0; i < pocet_riadkov; i++) { if (zasifrovany_udaj[i].length() > 3) { fprintf(subor, "%s\n", &zasifrovany_udaj[i][0]); } }
 						zasifrovany_udaj[pocet_riadkov] = do_suboru;
 						fprintf(subor, "%s", &do_suboru[0]);
 						fclose(subor);
-
-						/*HexEncoder encoder_kluc;
-						encoder_kluc.Put(spolocny_kluc, sizeof(spolocny_kluc));
-						encoder_kluc.MessageEnd();
-						size = encoder_kluc.MaxRetrievable();
-						if(size && size <= SIZE_MAX) { ecdh_zdielany_kluc_string.resize(size); encoder_kluc.Get((unsigned char*)&ecdh_zdielany_kluc_string[0], ecdh_zdielany_kluc_string.size()); }
-
-						HexEncoder encoder_iv;
-						encoder_iv.Put(spolocny_iv, sizeof(spolocny_iv));
-						encoder_iv.MessageEnd();
-						size = encoder_iv.MaxRetrievable();
-						if(size && size <= SIZE_MAX) { ecdh_zdielany_iv_string.resize(size); encoder_iv.Get((unsigned char*)&ecdh_zdielany_iv_string[0], ecdh_zdielany_iv_string.size()); }
-
-						HexEncoder encoder_hmac;
-						encoder_hmac.Put(spolocny_hmac_kluc, sizeof(spolocny_hmac_kluc));
-						encoder_hmac.MessageEnd();
-						size = encoder_hmac.MaxRetrievable();
-						if(size && size <= SIZE_MAX) { ecdh_zdielany_hmac_kluc_string.resize(size); encoder_hmac.Get((unsigned char*)&ecdh_zdielany_hmac_kluc_string[0], ecdh_zdielany_hmac_kluc_string.size()); }
-
-						int dlzka_kluc = ecdh_zdielany_kluc_string.length();
-						wchar_t* buffer_kluc = new wchar_t[dlzka_kluc + 1];
-						for (int i = 0; i <= dlzka_kluc; i++) { buffer_kluc[i] = NULL; }
-						for (int k = 0; k < dlzka_kluc; k++) { buffer_kluc[k] = ecdh_zdielany_kluc_string[k]; }
-
-						int dlzka_iv = ecdh_zdielany_iv_string.length();
-						wchar_t* buffer_iv = new wchar_t[dlzka_iv + 1];
-						for (int i = 0; i <= dlzka_iv; i++) { buffer_iv[i] = NULL; }
-						for (int k = 0; k < dlzka_iv; k++) { buffer_iv[k] = ecdh_zdielany_iv_string[k]; }
-
-						int dlzka_hmac = ecdh_zdielany_hmac_kluc_string.length();
-						wchar_t* buffer_hmac = new wchar_t[dlzka_hmac + 1];
-						for (int i = 0; i <= dlzka_hmac; i++) { buffer_hmac[i] = NULL; }
-						for (int k = 0; k < dlzka_hmac; k++) { buffer_hmac[k] = ecdh_zdielany_hmac_kluc_string[k]; }
-
-						int vysledna_dlzka = dlzka_kluc + dlzka_iv + dlzka_hmac;
-						wchar_t* vysledny_buffer = new wchar_t[vysledna_dlzka + 1];
-						for (int i = 0; i <= vysledna_dlzka; i++) { vysledny_buffer[i] = NULL; }
-						for (int k = 0; k < dlzka_kluc; k++) { vysledny_buffer[k] = ecdh_zdielany_kluc_string[k]; }
-						for (int k = 0; k < dlzka_iv; k++) { vysledny_buffer[k + dlzka_kluc] = ecdh_zdielany_iv_string[k]; }
-						for (int k = 0; k < dlzka_hmac; k++) { vysledny_buffer[k + dlzka_kluc + dlzka_iv] = ecdh_zdielany_hmac_kluc_string[k]; }*/
-
-						//SendMessage(edit[1], WM_SETTEXT, (WPARAM)_tcslen(vysledny_buffer), (LPARAM)vysledny_buffer);
 
 						udaj_w[pocet_riadkov] = buffer_meno;
 						udaj_byty[pocet_riadkov].resize(80);
@@ -420,18 +358,12 @@ BOOL CALLBACK GoToProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 						for (int i = 0; i < 80; i++) { udaj_byty[pocet_riadkov][i] = na_zapis_kluce[i]; }
 
-						//pocet_riadkov++;
-
 						SendMessage(hWnd, WM_COMMAND, (WPARAM)601, (LPARAM)buffer_meno);
 
 					}
 
 					delete [] buffer_meno; buffer_meno = NULL;
 					delete [] buffer_kluc; buffer_kluc = NULL;
-					/*delete [] buffer_kluc;
-					delete [] buffer_iv;
-					delete [] buffer_hmac;
-					delete [] vysledny_buffer;*/
 
 					DestroyWindow(hwndGoto);
                     hwndGoto = NULL;
