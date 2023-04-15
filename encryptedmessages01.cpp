@@ -394,16 +394,10 @@ BOOL CALLBACK PasswordProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPa
 	word64 size;
 
 	Base64Decoder odkodovanie_kontaktov;
-	//SHA256 hash_hesla[128];
-
-	//SetFocus(hwndDlg);
  
     switch (message) 
     { 
-        case WM_INITDIALOG: 
-            //CheckDlgButton(hwndDlg, ID_ABSREL, fRelative);
-			//SetFocus(hwndDlg);
-			//SendMessage(edit[0], WM_SETTEXT, (WPARAM)_tcslen(text01), (LPARAM)text01);
+        case WM_INITDIALOG:
             return TRUE;
  
         case WM_COMMAND: 
@@ -416,16 +410,8 @@ BOOL CALLBACK PasswordProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPa
 					wchar_t* buffer = new wchar_t[dlzka + 1];
 					SendMessage(uvodne_heslo, WM_GETTEXT, (WPARAM)dlzka + 1, (LPARAM)buffer);
 
-					//SendMessage(edit[0], WM_SETTEXT, (WPARAM)_tcslen(buffer), (LPARAM)buffer);
-
 					DestroyWindow(hHeslo);
                     hHeslo = NULL;
-
-					/*_getcwd(priecinok, sizeof(priecinok) / sizeof(TCHAR));
-					strcat_s(priecinok, "\\data.txt");*/
-
-					//f1 = fopen(priecinok, "w");
-					//fclose(f1);
 
 					ifstream subor_heslo("password.txt");
 					
@@ -499,28 +485,12 @@ BOOL CALLBACK PasswordProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPa
 										CBC_Mode<AES>::Decryption odsifrovanie;
 										odsifrovanie.SetKeyWithIV(hlavny_kluc, sizeof(hlavny_kluc), hlavny_kluc_iv);
 										StringSource(udaj[j], true, new StreamTransformationFilter(odsifrovanie, new StringSink(udaj_byty[j]), BlockPaddingSchemeDef::PKCS_PADDING));
-										//udaj_byty[j] = udaj[j];
-
-										/*string udaj_test;
-										HexEncoder encoder_kluc;
-										encoder_kluc.Put((unsigned char*)udaj_byty[j].data(), udaj_byty[j].length());
-										encoder_kluc.MessageEnd();
-										size = encoder_kluc.MaxRetrievable();
-										if(size && size <= SIZE_MAX) { udaj_test.resize(size); encoder_kluc.Get((unsigned char*)&udaj_test[0], udaj_test.size()); }
-
-										int dlzka_kluc = udaj_test.length();
-										wchar_t* buffer_kluc = new wchar_t[dlzka_kluc + 1];
-										for (int i = 0; i <= dlzka_kluc; i++) { buffer_kluc[i] = NULL; }
-										for (int k = 0; k < dlzka_kluc; k++) { buffer_kluc[k] = udaj_test[k]; }
-
-										SendMessage(edit[0], WM_SETTEXT, (WPARAM)_tcslen(buffer_kluc), (LPARAM)buffer_kluc);*/
 
 										pozicia = udaj_byty[j].find(rozdelovac);
 										udaj_meno[j] = udaj_byty[j].substr(0, pozicia);
 										udaj_byty[j].erase(0, pozicia + 1);
 
 										udaj_w[j] = konvertovanie_z_utf8.from_bytes(udaj_meno[j]);
-										//udaj_w[j] = transformacia_retazca(udaj_meno[j]);
 
 										hButton[j] = CreateWindow(L"Button", udaj_w[j].c_str(), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 0, 0 + (40 * j), 160, 40, hWnd, (HMENU)(1001 + j), hInst, NULL);
 										SendMessage(hButton[j], WM_SETFONT, WPARAM(typ_pisma_tlacitko), TRUE);
@@ -536,11 +506,6 @@ BOOL CALLBACK PasswordProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPa
 							
 								nespravne_heslo();
 								DestroyWindow(hWnd);
-								/*hHeslo = NULL;
-								hHeslo = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DIALOG2), hWnd, (DLGPROC)PasswordProc);
-								ShowWindow(hHeslo, SW_SHOW);
-								SendMessage(uvodne_heslo, WM_SETTEXT, (WPARAM)0, (LPARAM)0);*/
-								//iteracia++;
 						
 							}
 
@@ -578,7 +543,6 @@ BOOL CALLBACK nove_heslo(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPara
 	switch (message) 
     { 
         case WM_INITDIALOG: 
-            //CheckDlgButton(hwndDlg, ID_ABSREL, fRelative); 
             return TRUE; 
  
         case WM_COMMAND: 
@@ -603,8 +567,6 @@ BOOL CALLBACK nove_heslo(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPara
 
 				if (heslo1.compare(heslo2) == 0)
 				{
-				
-					//SendMessage(edit[0], WM_SETTEXT, (WPARAM)_tcslen(buffer_heslo1), (LPARAM)buffer_heslo1);
 
 					SHA256 hash_hesla;
 					hash_hesla.Update((const unsigned char*)heslo1.data(), heslo1.size());
@@ -658,22 +620,6 @@ BOOL CALLBACK nove_heslo(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPara
 
 			}
 
-		/*case WM_KEYDOWN: 
-            switch (LOWORD(wParam)) 
-            { 
-							
-				case VK_HOME:
-				{
-
-					SendMessage(hHeslo, WM_COMMAND, (WPARAM)IDOK2, (LPARAM)0);
-					break;
-
-				}
-
-				default:
-					break;
-
-			}*/
 	}
 
 	return FALSE;
@@ -689,7 +635,6 @@ BOOL CALLBACK nove_meno(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam
 	switch (message) 
     {
         case WM_INITDIALOG: 
-            //CheckDlgButton(hwndDlg, ID_ABSREL, fRelative); 
             return TRUE;
  
         case WM_COMMAND:
@@ -800,7 +745,6 @@ BOOL CALLBACK zmena_hesla(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPar
 	switch (message) 
     {
         case WM_INITDIALOG: 
-            //CheckDlgButton(hwndDlg, ID_ABSREL, fRelative); 
             return TRUE;
  
         case WM_COMMAND:
@@ -997,28 +941,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
     if (!hWnd) { MessageBox(NULL, _T("Funkcia CreateWindow zlyhala."), _T("Chyba"), NULL); return 1; }
 
 	ShowWindow(hWnd, nCmdShow);
-    UpdateWindow(hWnd);
-
-	/*hdc = BeginPaint(hWnd, &ps);
-
-	brush = CreatePatternBrush((HBITMAP)LoadImage(0, _T("background.bmp"), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE));
-
-	GetClientRect(hWnd, &r);
-	FillRect(hdc, &r, brush);
-
-	DeleteObject(brush);
-
-	EndPaint(hWnd, &ps);*/
+    	UpdateWindow(hWnd);
 
 	MSG msg;
 	HACCEL hAccelTable;
 
-	// Initialize global strings
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 	LoadString(hInstance, IDC_ENCRYPTEDMESSAGES01, szWindowClass, MAX_LOADSTRING);
 	MyRegisterClass(hInstance);
-
-	// Perform application initialization:
+	
 	if (!InitInstance (hInstance, nCmdShow))
 	{
 		return FALSE;
@@ -1059,31 +990,11 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	return RegisterClassEx(&wcex);
 }
 
-//
-//   FUNCTION: InitInstance(HINSTANCE, int)
-//
-//   PURPOSE: Saves instance handle and creates main window
-//
-//   COMMENTS:
-//
-//        In this function, we save the instance handle in a global variable and
-//        create and display the main program window.
-//
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    HWND hWnd;
 
-   hInst = hInstance; // Store instance handle in our global variable
-
-   /*hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
-
-   if (!hWnd)
-   {
-      return FALSE;
-   }
-
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);*/
+   hInst = hInstance;
 
    return TRUE;
 }
@@ -1237,7 +1148,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				wstring medziretazec(buffer);
 				wstring_convert<codecvt_utf8<wchar_t>> konvertovanie_na_utf8;
 				string vysledny_retazec = konvertovanie_na_utf8.to_bytes(medziretazec);
-				//string vysledny_retazec(medziretazec.begin(), medziretazec.end());
 
 				StringSource(vysledny_retazec, true, new StreamTransformationFilter(aes_cbc_hmac_zasifrovanie, new HashFilter(hmac_autentifikacia, new StringSink(aes_cbc_hmac_sifra), true)));
 				StringSource(aes_cbc_hmac_sifra, true, new HexEncoder(new StringSink(aes_cbc_hmac_zasifrovany_text)));
@@ -1317,7 +1227,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					wstring_convert<codecvt_utf8<wchar_t>> konvertovanie_z_utf8;
 					wstring aes_cbc_hmac_odsifrovany_text_uft8 = konvertovanie_z_utf8.from_bytes(aes_cbc_hmac_odsifrovany_text);
 
-					//int dlzka2 = aes_cbc_hmac_odsifrovany_text.length();
 					int dlzka2 = aes_cbc_hmac_odsifrovany_text_uft8.length();
 					wchar_t* buffer2 = new wchar_t[dlzka2 + 1];
 					for (int i = 0; i <= dlzka2; i++) { buffer2[i] = NULL; }
@@ -1397,10 +1306,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		DeleteObject(brush);
 
-		//OnPaint(hdc);
-
-		//Rectangle(hdc, 0, 0, 160, 400);
-
 		EndPaint(hWnd, &ps);
 		break;
 
@@ -1415,7 +1320,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-// Message handler for about box.
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(lParam);
