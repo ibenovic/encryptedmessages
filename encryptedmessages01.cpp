@@ -20,24 +20,24 @@
 #include <fstream>
 #include <codecvt>
 #include <atlconv.h>
-#include "..\..\DNSTest01\crypto\sha.h"
-#include "..\..\DNSTest01\crypto\rsa.h"
-#include "..\..\DNSTest01\crypto\files.h"
-#include "..\..\DNSTest01\crypto\hex.h"
-#include "..\..\DNSTest01\crypto\modes.h"
-#include "..\..\DNSTest01\crypto\osrng.h"
-#include "..\..\DNSTest01\crypto\cryptlib.h"
-#include "..\..\DNSTest01\crypto\integer.h"
-#include "..\..\DNSTest01\crypto\nbtheory.h"
-#include "..\..\DNSTest01\crypto\base64.h"
-#include "..\..\DNSTest01\crypto\xed25519.h"
-#include "..\..\DNSTest01\crypto\dh2.h"
-#include "..\..\DNSTest01\crypto\cmac.h"
-#include "..\..\DNSTest01\crypto\hmac.h"
-#include "..\..\DNSTest01\crypto\gcm.h"
-#include "..\..\DNSTest01\crypto\filters.h"
-#include "..\..\DNSTest01\crypto\hkdf.h"
-#include "..\..\DNSTest01\crypto\iterhash.h"
+#include "..\..\crypto\sha.h"
+#include "..\..\crypto\rsa.h"
+#include "..\..\crypto\files.h"
+#include "..\..\crypto\hex.h"
+#include "..\..\crypto\modes.h"
+#include "..\..\crypto\osrng.h"
+#include "..\..\crypto\cryptlib.h"
+#include "..\..\crypto\integer.h"
+#include "..\..\crypto\nbtheory.h"
+#include "..\..\crypto\base64.h"
+#include "..\..\crypto\xed25519.h"
+#include "..\..\crypto\dh2.h"
+#include "..\..\crypto\cmac.h"
+#include "..\..\crypto\hmac.h"
+#include "..\..\crypto\gcm.h"
+#include "..\..\crypto\filters.h"
+#include "..\..\crypto\hkdf.h"
+#include "..\..\crypto\iterhash.h"
 
 #pragma comment (lib, "Gdiplus.lib")
 
@@ -48,7 +48,7 @@ using namespace CryptoPP;
 #define MAX_LOADSTRING 100
 
 HINSTANCE hInst;								
-TCHAR szTitle[MAX_LOADSTRING] = _T("äifrovanie spr·v");
+TCHAR szTitle[MAX_LOADSTRING] = _T("≈†ifrovanie spr√°v");
 TCHAR szWindowClass[MAX_LOADSTRING] = _T("win32app");
 TCHAR text01[] = _T("Testovanie 01.");
 
@@ -66,8 +66,8 @@ HWND uvodne_heslo, h_ecdh_verejny_kluc, h_ecdh_kluc_kontaktu, h_meno_kontaktu, h
 HMENU hMenubar, hFile, hOptions;
 HFONT typ_pisma_pole, typ_pisma_tlacitko, typ_pisma_nadpis;
 
-int iLine;             // Receives line number.
-BOOL fRelative;        // Receives check box status. 
+int iLine;
+BOOL fRelative; 
 
 PAINTSTRUCT ps;
 HDC hdc;
@@ -104,8 +104,8 @@ unsigned char salt_key[] = { 0x0, 0x30, 0x31, 0x30, 0xd, 0x6, 0x9, 0x60, 0x86, 0
 unsigned char salt_iv[] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
 unsigned char salt_hmac[] = { 0xd, 0x6, 0x9, 0x60, 0x86, 0x48, 0x1, 0x65, 0x3, 0x4, 0x2, 0x1, 0x5, 0x0, 0x4, 0x20 };
 
-unsigned char hlavny_kluc[32]; // = { 0x5, 0x30, 0x31, 0x30, 0xd, 0x6, 0x9, 0x60, 0x86, 0x48, 0x1, 0x65, 0x3, 0x4, 0x2, 0x1, 0x8, 0x30, 0x31, 0x30, 0xd, 0x6, 0x9, 0x60, 0x86, 0x48, 0x1, 0x65, 0x3, 0x4, 0x2, 0x1 };
-unsigned char hlavny_kluc_iv[16]; // = { 0xd, 0x6, 0x9, 0x60, 0x86, 0x48, 0x1, 0x65, 0x3, 0x4, 0x2, 0x1, 0x5, 0x0, 0x4, 0x20 };
+unsigned char hlavny_kluc[32];
+unsigned char hlavny_kluc_iv[16];
 
 //int iteracia = 0;
 
@@ -130,14 +130,14 @@ string konvertacia_na_retazec(const CryptoPP::Integer& n)
 
 int nespravne_heslo()
 {
-    int msgboxID = MessageBox(NULL, L"Nespr·vne heslo.\nProgram sa ukonËÌ.", L"Nespr·vne heslo", MB_ICONSTOP | MB_OK);
+    int msgboxID = MessageBox(NULL, L"Nespr√°vne heslo.\nProgram sa ukon√®√≠.", L"Nespr√°vne heslo", MB_ICONSTOP | MB_OK);
 
     return msgboxID;    
 }
 
 int vymazanie_kontaktu()
 {
-    int msgboxID = MessageBox(NULL, L"Naozaj si ûel·te vymazaù\nzvolen˝ kontakt?", L"Vymazanie zvolenÈho kontaktu", MB_ICONEXCLAMATION | MB_YESNO);
+    int msgboxID = MessageBox(NULL, L"Naozaj si ≈æel√°te vymaza¬ù\nzvolen√Ω kontakt?", L"Vymazanie zvolen√©ho kontaktu", MB_ICONEXCLAMATION | MB_YESNO);
 
     if (msgboxID == IDYES)
     {
@@ -158,7 +158,7 @@ int vymazanie_kontaktu()
 		for (int i = 0; i < zasifrovany_udaj[cislo_tlacitka].length(); i++) { zasifrovany_udaj[cislo_tlacitka][i] = NULL; }
 
 		DestroyWindow(hButton[cislo_tlacitka]);
-		SendMessage(hStatic[2], WM_SETTEXT, 0, (LPARAM)L"Nie je zvolen˝ ûiadny kontakt.");
+		SendMessage(hStatic[2], WM_SETTEXT, 0, (LPARAM)L"Nie je zvolen√Ω ≈æiadny kontakt.");
 		cislo_tlacitka = 0;
 
     }
@@ -170,10 +170,10 @@ LRESULT CALLBACK ButtonProc01(HWND tlacitko, UINT message, WPARAM wp, LPARAM lp)
 {
     switch (message) {
     case WM_LBUTTONDOWN:
-        //SendMessage(tlacitko, WM_SETTEXT, 0, (LPARAM)L"StlaËenÈ");
+        //SendMessage(tlacitko, WM_SETTEXT, 0, (LPARAM)L"Stla√®en√©");
         break;
     case WM_LBUTTONUP:
-        //SendMessage(tlacitko, WM_SETTEXT, 0, (LPARAM)L"PustenÈ");
+        //SendMessage(tlacitko, WM_SETTEXT, 0, (LPARAM)L"Pusten√©");
 		InvalidateRect(hWnd, NULL, TRUE);
 		UpdateWindow(hWnd);
 
@@ -273,7 +273,7 @@ BOOL CALLBACK GoToProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 						{
 					
 							kontrola = false;
-							int msgboxID = MessageBox(NULL, L"Nevloûili ste verejn˝ kæ˙Ë\nkontaktu v platnom form·te.", L"Nespr·vny form·t verejnÈho kæ˙Ëa", MB_ICONEXCLAMATION | MB_OK);
+							int msgboxID = MessageBox(NULL, L"Nevlo≈æili ste verejn√Ω k¬æ√∫√®\nkontaktu v platnom form√°te.", L"Nespr√°vny form√°t verejn√©ho k¬æ√∫√®a", MB_ICONEXCLAMATION | MB_OK);
 							break;
 					
 						}
@@ -310,16 +310,10 @@ BOOL CALLBACK GoToProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 						for (int i = 0; i < 32; i++) { na_zapis_kluce[i + 48] = spolocny_hmac_kluc[i]; }
 
 						na_zapis = meno + na_zapis_kluce;
-
-						//string heslo1 = "heslo";
-						//HKDF<SHA256> hkdf2;
-						//hkdf2.DeriveKey(hlavny_kluc, sizeof(hlavny_kluc), (unsigned char*)heslo1.data(), heslo1.length(), salt_key, sizeof(salt_key), NULL, NULL);
-						//hkdf2.DeriveKey(hlavny_kluc_iv, sizeof(hlavny_kluc_iv), (unsigned char*)heslo1.data(), heslo1.length(), salt_iv, sizeof(salt_iv), NULL, NULL);
 							
 						CBC_Mode<AES>::Encryption zasifrovanie;
 						zasifrovanie.SetKeyWithIV(hlavny_kluc, sizeof(hlavny_kluc), hlavny_kluc_iv);
 						StringSource(na_zapis, true, new StreamTransformationFilter(zasifrovanie, new StringSink(na_zapis_zasifrovane), BlockPaddingSchemeDef::PKCS_PADDING));
-						//na_zapis_zasifrovane = na_zapis;
 
 						zakodovanie.Attach(new StringSink(na_zapis_base64));
 						zakodovanie.Put((unsigned char*)na_zapis_zasifrovane.data(), na_zapis_zasifrovane.size());
@@ -699,7 +693,7 @@ BOOL CALLBACK nove_heslo(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPara
 					hkdf.DeriveKey(hlavny_kluc, sizeof(hlavny_kluc), (unsigned char*)heslo1.data(), heslo1.length(), salt_key, sizeof(salt_key), NULL, NULL);
 					hkdf.DeriveKey(hlavny_kluc_iv, sizeof(hlavny_kluc_iv), (unsigned char*)heslo1.data(), heslo1.length(), salt_iv, sizeof(salt_iv), NULL, NULL);
 
-					int msgboxID = MessageBox(NULL, L"HlavnÈ heslo bolo\n˙speöne vytvorenÈ.", L"HlavnÈ heslo", MB_ICONINFORMATION | MB_OK);
+					int msgboxID = MessageBox(NULL, L"Hlavn√© heslo bolo\n√∫spe≈°ne vytvoren√©.", L"Hlavn√© heslo", MB_ICONINFORMATION | MB_OK);
 
 					DestroyWindow(hNoveHeslo);
 					hNoveHeslo = NULL;
@@ -708,7 +702,7 @@ BOOL CALLBACK nove_heslo(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPara
 				else
 				{
 				
-					int msgboxID = MessageBox(NULL, L"Hesl· nie s˙ rovnakÈ.\nProsÌm vloûte rovnakÈ heslo.", L"ChybnÈ heslo", MB_ICONEXCLAMATION | MB_OK);
+					int msgboxID = MessageBox(NULL, L"Hesl√° nie s√∫ rovnak√©.\nPros√≠m vlo≈æte rovnak√© heslo.", L"Chybn√© heslo", MB_ICONEXCLAMATION | MB_OK);
 				
 				}
 
@@ -824,7 +818,7 @@ BOOL CALLBACK nove_meno(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam
 					fclose(subor);
 
 					udaj_w[cislo_tlacitka] = buffer_meno;
-					meno_kontaktu = L"Zvolen˝ kontakt: " + udaj_w[cislo_tlacitka];
+					meno_kontaktu = L"Zvolen√Ω kontakt: " + udaj_w[cislo_tlacitka];
 
 					udaj_meno[cislo_tlacitka]  = konvertovanie_na_utf8.to_bytes(udaj_w[cislo_tlacitka]);
 
@@ -981,7 +975,7 @@ BOOL CALLBACK zmena_hesla(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPar
 							for (int i = 0; i < pocet_riadkov; i++) { if (zasifrovany_udaj[i].length() > 3) { fprintf(subor_udaje, "%s\n", &zasifrovany_udaj[i][0]); } }
 							fclose(subor_udaje);
 
-							int msgboxID = MessageBox(NULL, L"Heslo bolo\n˙speöne zmenenÈ.", L"Zmena hesla", MB_ICONINFORMATION | MB_OK);
+							int msgboxID = MessageBox(NULL, L"Heslo bolo\n√∫spe≈°ne zmenen√©.", L"Zmena hesla", MB_ICONINFORMATION | MB_OK);
 
 							DestroyWindow(hZmenaHesla);
 							hZmenaHesla = NULL;
@@ -990,7 +984,7 @@ BOOL CALLBACK zmena_hesla(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPar
 						else
 						{
 						
-							int msgboxID = MessageBox(NULL, L"Hesl· nie s˙ rovnakÈ.\nProsÌm vloûte rovnakÈ heslo.", L"ChybnÈ heslo", MB_ICONEXCLAMATION | MB_OK);
+							int msgboxID = MessageBox(NULL, L"Hesl√° nie s√∫ rovnak√©.\nPros√≠m vlo≈æte rovnak√© heslo.", L"Chybn√© heslo", MB_ICONEXCLAMATION | MB_OK);
 
 						}
 
@@ -998,7 +992,7 @@ BOOL CALLBACK zmena_hesla(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lPar
 					else
 					{
 				
-						int msgboxID = MessageBox(NULL, L"PÙvodnÈ heslo\nnie je zadanÈ spr·vne.", L"ChybnÈ pÙvodnÈ heslo", MB_ICONEXCLAMATION | MB_OK);
+						int msgboxID = MessageBox(NULL, L"P√¥vodn√© heslo\nnie je zadan√© spr√°vne.", L"Chybn√© p√¥vodn√© heslo", MB_ICONEXCLAMATION | MB_OK);
 				
 					}
 
@@ -1174,15 +1168,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			hFile = CreateMenu();
 			hOptions = CreateMenu();
 			
-			AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hFile, L"&S˙bor");
+			AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hFile, L"&S√∫bor");
 			AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hOptions, L"&Pomoc");
 
-			AppendMenuW(hFile, MF_STRING, 201, L"&Nov˝ kontakt");
-			AppendMenuW(hFile, MF_STRING, 202, L"&Vymazaù zvolen˝ kontakt");
-			AppendMenuW(hFile, MF_STRING, 206, L"&Premenovaù zvolen˝ kontakt");
-			AppendMenuW(hFile, MF_STRING, 207, L"&Zmeniù hlavnÈ heslo");
+			AppendMenuW(hFile, MF_STRING, 201, L"&Nov√Ω kontakt");
+			AppendMenuW(hFile, MF_STRING, 202, L"&Vymaza¬ù zvolen√Ω kontakt");
+			AppendMenuW(hFile, MF_STRING, 206, L"&Premenova¬ù zvolen√Ω kontakt");
+			AppendMenuW(hFile, MF_STRING, 207, L"&Zmeni¬ù hlavn√© heslo");
 			AppendMenuW(hFile, MF_SEPARATOR, NULL, NULL);
-			AppendMenuW(hFile, MF_STRING, IDM_EXIT, L"&UkonËiù");
+			AppendMenuW(hFile, MF_STRING, IDM_EXIT, L"&Ukon√®i¬ù");
 
 			AppendMenuW(hOptions, MF_STRING, 104, L"&O programe");
 			
@@ -1204,10 +1198,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			}
 
-			hStatic[0] = CreateWindow(L"Static", L"PÙvodn˝ text", WS_BORDER | SS_CENTER | WS_CHILD | WS_VISIBLE | NULL | NULL, 580, 30, 120, 20, hWnd, (HMENU)603, hInst, 0);
-			hStatic[1] = CreateWindow(L"Static", L"Zaöifrovan˝ text", WS_BORDER | SS_CENTER | WS_CHILD | WS_VISIBLE | NULL | NULL, 580, 270, 120, 20, hWnd, (HMENU)604, hInst, 0);
+			hStatic[0] = CreateWindow(L"Static", L"P√¥vodn√Ω text", WS_BORDER | SS_CENTER | WS_CHILD | WS_VISIBLE | NULL | NULL, 580, 30, 120, 20, hWnd, (HMENU)603, hInst, 0);
+			hStatic[1] = CreateWindow(L"Static", L"Za≈°ifrovan√Ω text", WS_BORDER | SS_CENTER | WS_CHILD | WS_VISIBLE | NULL | NULL, 580, 270, 120, 20, hWnd, (HMENU)604, hInst, 0);
 			
-			hStatic[2] = CreateWindow(L"Static", L"Nie je zvolen˝ kontakt.", WS_BORDER | NULL | WS_CHILD | WS_VISIBLE | NULL | NULL, 250, 0, 400, 20, hWnd, (HMENU)7, hInst, 0);
+			hStatic[2] = CreateWindow(L"Static", L"Nie je zvolen√Ω kontakt.", WS_BORDER | NULL | WS_CHILD | WS_VISIBLE | NULL | NULL, 250, 0, 400, 20, hWnd, (HMENU)7, hInst, 0);
 
 			edit[0] = CreateWindow(L"Edit", NULL, WS_BORDER | NULL | WS_CHILD | WS_VISIBLE | NULL | WS_VSCROLL | ES_MULTILINE, 250, 60, 800, 200, hWnd, (HMENU)605, hInst, 0);
 			edit[1] = CreateWindow(L"Edit", NULL, WS_BORDER | NULL | WS_CHILD | WS_VISIBLE | NULL | WS_VSCROLL | ES_MULTILINE, 250, 300, 800, 200, hWnd, (HMENU)606, hInst, 0);
@@ -1223,11 +1217,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			SendMessage(edit[0], WM_SETFONT, WPARAM(typ_pisma_pole), TRUE);
 			SendMessage(edit[1], WM_SETFONT, WPARAM(typ_pisma_pole), TRUE);
 
-			hEncrypt = CreateWindow(L"Button", L"Zaöifrovaù", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 1070, 140, 100, 40, hWnd, (HMENU)501, hInst, NULL);
+			hEncrypt = CreateWindow(L"Button", L"Za≈°ifrova¬ù", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 1070, 140, 100, 40, hWnd, (HMENU)501, hInst, NULL);
 			SendMessage(hEncrypt, WM_SETFONT, WPARAM(typ_pisma_tlacitko), TRUE);
 			vykonanie = (WNDPROC)SetWindowLong(hEncrypt, GWL_WNDPROC, (LONG)ButtonProc01);
 
-			hDecrypt = CreateWindow(L"Button", L"Deöifrovaù", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 1070, 390, 100, 40, hWnd, (HMENU)502, hInst, NULL);
+			hDecrypt = CreateWindow(L"Button", L"De≈°ifrova¬ù", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 1070, 390, 100, 40, hWnd, (HMENU)502, hInst, NULL);
 			SendMessage(hDecrypt, WM_SETFONT, WPARAM(typ_pisma_tlacitko), TRUE);
 			vykonanie = (WNDPROC)SetWindowLong(hDecrypt, GWL_WNDPROC, (LONG)ButtonProc01);
 
@@ -1355,7 +1349,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					{
 					
 						kontrola = false;
-						int msgboxID = MessageBox(NULL, L"Nevloûili ste zakÛdovan˝\nreùazec v platnom form·te.", L"Nespr·vny form·t reùazca", MB_ICONSTOP | MB_OK);
+						int msgboxID = MessageBox(NULL, L"Nevlo≈æili ste zak√≥dovan√Ω\nre¬ùazec v platnom form√°te.", L"Nespr√°vny form√°t re¬ùazca", MB_ICONSTOP | MB_OK);
 						break;
 					
 					}
@@ -1428,7 +1422,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case 1001:
 		{
-			meno_kontaktu = L"Zvolen˝ kontakt: " + udaj_w[cislo_tlacitka];
+			meno_kontaktu = L"Zvolen√Ω kontakt: " + udaj_w[cislo_tlacitka];
 			SendMessage(hStatic[2], WM_SETTEXT, (WPARAM)_tcslen(meno_kontaktu.c_str()), (LPARAM)meno_kontaktu.c_str());
 			break;
 		}
